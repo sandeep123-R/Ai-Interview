@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Footer Layout</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  overflow-x: hidden;
+  width: 100%; /* ⛔ Prevent horizontal scroll */
+}
+
+    html {
+  scroll-behavior: smooth;
+}
+
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .main-image {
+      max-width: 90%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      margin-bottom: 30px;
+      margin-top: 125px;
+    }
+    
+
+    .main-content button {
+      background-color: #5caea5;
+      color: white;
+      border: none;
+      padding: 24px 35px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-left: 580px;
+
+    }
+
+    .main-content button:hover {
+      background-color: #499d94;
+      
+    }
+
+    footer {
+  background-color: #1b1f3a;
+  color: #ffffff;
+  padding: 30px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  position: fixed;  
+  margin-top: -5px;       
+              
+  left: 0;
+  width: 100%;           
+  z-index: 1000;         
+}
+
+
+    .footer-title {
+      font-size: 24px;
+      font-weight: bold;
+
+    }
+
+    .footer-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-buttons a {
+      text-decoration: none;
+    }
+   
+    .footer-buttons button {
+      background-color: #2d6a4f;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 5px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .footer-buttons button:hover {
+      background-color: #1b4332;
+    }
+    .logo-marquee {
+  width: 100%;
+  overflow-x: hidden; /* ✅ restrict overflow */
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px 0;
+  margin-top: 90px;
+  border: 2px solid #1b1f3a;
+}
+
+.logo-track {
+  display: flex;
+  gap: 100px; /* ✅ reduced gap */
+  min-width: 100%;
+  animation: scrollLeft 20s linear infinite;
+}
+
+
+    .logo-track img {
+      height: 60px;
+      object-fit: contain;
+      filter: brightness(1) invert(1);
+    }
+
+    @keyframes scrollLeft {
+  0% {
+    transform: translateX(25%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+    
+    textarea {
+  resize: none;
+}
+
+    #col {
+      background-color: #1b1f3a;
+      height: 1000px;
+     
+    }
+    #ima {
+      width: 40%;
+      height: 40%;
+      object-fit: cover;
+      opacity: 0.8;
+      margin-left: 700px;
+      margin-top: 150px;
+      border-radius: 20px;
+      border: 3px solid #FDF6E3;
+      transition: transform 0.4s ease-in-out;
+    }
+    h1 {
+      color: #FDF6E3;
+      font-size: 35px;
+      margin-left: 100px;
+      margin-top: 20px;
+    }    
+    #con {
+  background-color: #d0ebeb; /* Dark navy */
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+#spell {
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: black; /* Gold */
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+form input::placeholder,
+form textarea::placeholder {
+  color: #999;
+}
+
+form button {
+  background-color: #ffffff;
+  color: #1A1D3A;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background-color: #ffc107;
+}
+#contactForm input,
+#contactForm textarea {
+  border: 1px solid black;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+.use-cases {
+  background-color: #d0ebeb;
+  padding: 60px 40px;
+  text-align: center;
+  
+
+
+}
+
+.use-cases h2 {
+  font-size: 32px;
+  color: #1b1f3a;
+  margin-bottom: 40px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 25px;
+  width: 250px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* 💡 smoother + deeper */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* 💡 adds depth on hover */
+}
+
+
+.card h3 {
+  font-size: 18px;
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+.footer-bottom {
+  background-color: #1b1f3a;
+  color: #ccc;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.social-icons img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1); /* makes icons white */
+  transition: transform 0.3s ease;
+}
+
+.social-icons img:hover {
+  transform: scale(1.2);
+}
+/*phone */
+
+@media (max-width: 768px) {
+  /* Make footer elements stack side-by-side and center them */
+  footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .footer-title {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+
+  .footer-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 0;
+  }
+
+  .footer-buttons button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* Adjust Get Started button */
+  .main-content button {
+    margin-left: 120px;
+    margin-top: 20px;
+    width: 50%;
+    font-size: 16px;
+  }
+
+  /* Adjust image */
+  .main-image {
+    width: 95%;
+    height: auto;
+    margin: 20px auto;
+    display: block;
+    margin-top: 150px;
+  }
+
+  /* About Section */
+  #col {
+    padding: 20px;
+    text-align: center;
+    height: auto;
+  }
+
+  #ima {
+    width: 90%;
+    height: auto;
+    margin: 0 auto 20px auto;
+    display: block;
+  }
+
+  h1 {
+    font-size: 18px;
+    margin-left: 0;
+  }
+
+  /* Contact form */
+  #contactForm {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  form input,
+  form textarea {
+    font-size: 14px;
+  }
+
+  /* Use-cases cards layout */
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+  }
+
+  /* Logo scroll area fix */
+  .logo-track {
+    gap: 60px;
+  }
+
+  /* Footer bottom social icons */
+  .footer-bottom {
+    gap: 15px;
+    font-size: 13px;
+  }
+
+  .social-icons img {
+    width: 20px;
+    height: 20px;
+  }
+}
+* {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE/Edge */
+}
+
+
+    
+
+  </style>
+</head>
+<body>
+  <footer>
+    <div class="footer-title">AI Interview...</div>
+    <div class="footer-buttons">
+      <a href="#first"><button>Home</button></a>
+      <a href="#col"><button>About</button></a>
+      <a href="#spell"><button>Contact</button></a>
+    </div>
+  </footer>
+  <main id="back">
+    
+    <img 
+      src="https://res.cloudinary.com/dzeash6r4/image/upload/v1751988701/WhatsApp_Image_2025-07-08_at_20.57.23_626ed5bc_egb3vg.jpg" 
+      alt="AI Interview Illustration" 
+      class="main-image"
+      id="first"
+    />
+     </main>
+   <div class="main-content">
+  <a href="/upload">
+  <button type="button" class="hover-target">Get Started</button>
+</a>
+
+</div>
+
+    <div class="logo-marquee">
+      <div class="logo-track">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix">
+        <img src="https://res.cloudinary.com/dzeash6r4/image/upload/v1751991310/WhatsApp_Image_2025-07-08_at_21.44.31_26c463b0_kiiuih.jpg" alt="IBM">
+        <img src="https://res.cloudinary.com/dzeash6r4/image/upload/v1751991391/WhatsApp_Image_2025-07-08_at_21.44.31_a6ed93fb_j19taj.jpg" alt="Apple">
+        <!-- <img src="https://www.google.com/imgres?q=apple%20logo&imgurl=https%3A%2F%2Fpngdownload.io%2Fwp-content%2Fuploads%2F2023%2F12%2FApple-Logo-Iconic-Tech-Brand-Symbol-PNG-Transparent-Representation-of-Innovation-and-Design-jpg.webp&imgrefurl=https%3A%2F%2Fpngdownload.io%2Fpng-image%2Fapple-logo-iconic-tech-brand-symbol-png-transparent-representation-of-innovation-and-design%2F&docid=hukmAntrkC5KrM&tbnid=UEBZJKAbYP3IgM&vet=12ahUKEwjHjJKI1a2OAxX0S2cHHbU4BhAQM3oECFUQAA..i&w=2000&h=2200&hcb=2&ved=2ahUKEwjHjJKI1a2OAxX0S2cHHbU4BhAQM3oECFUQAA" alt="Tesla"> -->
+      </div>
+    </div>
+    <div id="col">
+      <img src="https://res.cloudinary.com/dzeash6r4/image/upload/v1752073340/download_c0xkun.jpg"  id="ima" class="hover-target"     alt="">
+      <h1>✅ AI-Powered Interviewer</h1>
+      <h1>🧠 Interview Practice for Job Seekers</h1>
+      <h1>🎤 Improves Communication Skills</h1>
+      <h1>🔄 Full Interview Simulation at Home</h1>
+      <h1>🌍 Accessible from Anywhere</h1>
+
+    </div>
+    <div id="con">
+  <h2 id="spell">Connect for Next Project</h2>
+  <form action="/contact" method="POST">
+  <input type="text" name="name" placeholder="Your Name" required />
+  <input type="email" name="email" placeholder="Your Email" required />
+  <textarea name="message" placeholder="Your Message or Project Idea..." rows="4" required></textarea>
+  <input type="text" name="skills" placeholder="Your Skills..." />
+  <button type="submit">Send</button>
+</form>
+
+
+</div>
+<!-- Use Cases Section -->
+<section class="use-cases">
+  <hr style="width: 80%; margin: 0 auto 20px auto; border: 5px solid #1b1f3a;" />
+
+  <h2>Why Choose AI Interviewer?</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>📄 Resume-Based Questions</h3>
+      <p>AI scans your resume and asks real interview questions tailored to your skills and experience.</p>
+    </div>
+    <div class="card">
+      <h3>🧠 Practice Anytime</h3>
+      <p>No need to schedule. Practice interviews 24/7 with instant feedback and improvement tips.</p>
+    </div>
+    <div class="card">
+      <h3>🎤 Improve Communication</h3>
+      <p>Practice speaking clearly, confidently, and fluently. AI gives you detailed feedback.</p>
+    </div>
+    <div class="card">
+      <h3>📊 Get Smart Feedback</h3>
+      <p>Understand your strengths and weaknesses — technical + soft skills, all evaluated by AI.</p>
+    </div>
+  </div>
+</section>
+<div class="footer-bottom">
+  <p>© 2025 AI Interview. All rights reserved.</p>
+  <div class="social-icons">
+    <a href="https://instagram.com/sandy__thoughts" target="_blank">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
+    </a>
+    <a href="https://www.linkedin.com/in/sandeep-kumar-ab79262a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" />
+    </a>
+    <a href="mailto:sandeepremail@example.com">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email" />
+    </a>
+  </div>
+</div>
+
+<script>
+
+  const elements = document.querySelectorAll('.hover-target');
+
+elements.forEach(el => {
+  el.addEventListener('mouseover', () => {
+    el.style.transform = 'scale(1.05)';
+  });
+
+  el.addEventListener('mouseout', () => {
+    el.style.transform = 'scale(1)';
+  });
+});
+image.addEventListener('mouseover', () => {
+  image.style.transform = 'scale(1.09)';
+});
+image.addEventListener('mouseout', () => {
+  image.style.transform = 'scale(1.5)';
+});
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+
+  // Disable keyboard copy
+  document.addEventListener('copy', function(e) {
+    e.preventDefault();
+  });
+  
+</script>
+
+
+ 
+
+  
+
+</body>
+</html>

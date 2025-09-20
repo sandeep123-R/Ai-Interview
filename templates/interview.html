@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Interview Room</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 130vh;
+      padding-top: 40px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 10px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .interview-container {
+      display: flex;
+      gap: 100px;
+      justify-content: center;
+      align-items: center;
+      width: 90%;
+      margin-top: 40px;
+    }
+
+    .box {
+      width: 500px;
+      height: 300px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    video, img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    #speakButton {
+      margin-top: 30px;
+      padding: 12px 20px;
+      background-color: #0984e3;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .mic-icon {
+  width: 50px;
+  height: 50px;
+  background: #e74c3c;
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: pulse 1s infinite;
+  box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(231, 76, 60, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+  }
+}
+
+    #speakButton:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Welcome, {{ name }}</h2>
+
+  <div class="interview-container">
+    <!-- AI Avatar Box -->
+    <div class="box">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712103.png" alt="AI Interviewer" />
+    </div>
+
+    <!-- User Webcam Box -->
+    <div class="box">
+      <video id="userVideo" autoplay muted playsinline></video>
+    </div>
+  </div>
+
+  <!-- Speak Button Only -->
+  <button id="speakButton" onclick="recordAnswer()" disabled>🎤 Speak Your Answer</button>
+<!-- Mic Animation -->
+<div id="recordingIndicator" style="display: none; margin-top: 20px; text-align: center;">
+  <div class="mic-icon"></div>
+  <p style="margin-top: 10px;">Listening...</p>
+</div>
+<button id="endInterviewButton" onclick="endInterview()" style="margin-top: 20px; margin-left: 10px; padding: 12px 20px; background-color: #d63031; color: white; font-size: 18px; border: none; border-radius: 10px; cursor: pointer;">
+  ⛔ End Interview
+</button>
+
+  <script>
+    let job = "{{ job }}";
+    let resume = `{{ resume | safe }}`;
+    let speakButton = document.getElementById("speakButton");
+    let recognition; // Make it global so both functions can use it
+
+
+    // ✅ Start webcam
+    window.onload = function () {
+      startWebcam();
+      askQuestion(`{{ question | safe }}`);
+    };
+
+    // ✅ Ask a question (speak it)
+    function askQuestion(question) {
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(question);
+      utterance.onend = () => {
+        speakButton.disabled = false; // Enable speak button after AI finishes asking
+      };
+      synth.speak(utterance);
+    }
+
+    // ✅ Record voice answer and send to backend
+    function recordAnswer() {
+  speakButton.disabled = true;
+
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = "en-US";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  // ✅ Show mic animation
+  document.getElementById("recordingIndicator").style.display = "block";
+
+  recognition.start();
+
+  recognition.onstart = function () {
+    console.log("🎤 Recording started...");
+  };
+
+  recognition.onresult = function (event) {
+    const spokenText = event.results[0][0].transcript;
+    console.log("✅ Final answer:", spokenText);
+
+    // ✅ Hide mic animation
+    document.getElementById("recordingIndicator").style.display = "none";
+
+    fetch('/next_question', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        answer: spokenText,
+        job: job,
+        resume: resume
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      askQuestion(data.question);
+    });
+  };
+
+  recognition.onspeechend = function () {
+    recognition.stop();
+    document.getElementById("recordingIndicator").style.display = "none"; // ✅ Hide on speech end
+  };
+
+  recognition.onerror = function (event) {
+    console.error("Speech recognition error:", event.error);
+    alert("Something went wrong. Try again.");
+    speakButton.disabled = false;
+    document.getElementById("recordingIndicator").style.display = "none"; // ✅ Hide on error
+  };
+}
+ // ✅ Start webcam
+    function startWebcam() {
+      const video = document.getElementById("userVideo");
+      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(stream => {
+          video.srcObject = stream;
+        })
+        .catch(error => {
+          console.error("Webcam error:", error);
+        });
+    }
+    function endInterview() {
+  if (recognition) {
+    recognition.abort(); // Stop listening
+  }
+
+  window.speechSynthesis.cancel(); // Stop speaking
+
+  // Disable buttons
+  document.getElementById("speakButton").disabled = true;
+  document.getElementById("endInterviewButton").disabled = true;
+
+  // Hide mic animation
+  document.getElementById("recordingIndicator").style.display = "none";
+
+  // ✅ Send feedback email automatically
+  fetch('/generate_feedback')
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log("✅ Feedback email sent successfully!");
+      } else {
+        console.error("❌ Feedback failed:", data.error);
+      }
+    })
+    .catch(error => {
+      console.error("❌ Error sending feedback:", error);
+    });
+
+  // ✅ Redirect to main page after short delay
+  alert("Interview ended. Thank you!");
+  setTimeout(() => {
+    window.location.href = "/main-page"; 
+  }, 1500);
+}
+
+
+  </script>
+
+</body>
+</html>
